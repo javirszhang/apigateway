@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
+using Winner.Framework.Utils;
 
 namespace Winner.ReverseProxy
 {
@@ -18,55 +19,38 @@ namespace Winner.ReverseProxy
 
         public virtual bool Resolve(ReverseProxyContext context)
         {
-            //this.context.TransferUrl = //this.context.RequestUrl;
-            Uri local = new Uri(context.RequestUrl);
-            string host = string.Concat(local.Host, ":", local.Port);
-            var hitmap = context.ReverseConfig.mapping.Find(m =>
+            Log.Info($"service={context.DataModel?.Service}");
+            Mapping hitmap = null;
+            string path = null;
+            if (!string.IsNullOrEmpty(context.DataModel?.Service))
             {
-                string up = m.upstream;
-                if (!m.upstream.Contains(':'))
+                
+                hitmap = context.ReverseConfig.mapping.Find(m => context.DataModel.Service.Equals(m.upstream, StringComparison.Ordinal));
+            }
+            else
+            {
+                Uri local = new Uri(context.RequestUrl);
+                path = local.AbsolutePath;
+                string host = string.Concat(local.Host, ":", local.Port);
+                hitmap = context.ReverseConfig.mapping.Find(m =>
                 {
-                    up += ":80";
-                }
-                return up.Equals(host, StringComparison.OrdinalIgnoreCase);
-            });
-            if(hitmap == null)
+                    string up = m.upstream;
+                    if (!m.upstream.Contains(':'))
+                    {
+                        up += ":80";
+                    }
+                    return up.Equals(host, StringComparison.OrdinalIgnoreCase);
+                });
+            }
+            if (hitmap == null)
             {
                 return false;
             }
             var rdn = new Random();
-            var i = rdn.Next(0, hitmap.downstream.Length-1);
+            var i = rdn.Next(0, hitmap.downstream.Length - 1);
             var down = hitmap.downstream[i];
-            context.TransferUrl = string.Concat(down.schema, "://", down.host, local.PathAndQuery);
+            context.TransferUrl = string.Concat(down.host, path);
             return true;
         }
     }
-    /// <summary>
-    /// 反向代理配置model
-    /// </summary>
-    public class ReverseProxyConfigModel
-    {
-        public int timeout { get; set; }
-        public string[] excludePage { get; set; }
-        public List<Mapping> mapping { get; set; }
-    }
-    public enum MappingType
-    {
-        FULL_URI = 1,
-        SERVICE_CODE = 2
-    }
-
-    public class Mapping
-    {
-        public string upstream { get; set; }
-        public Downstream[] downstream { get; set; }
-    }
-
-    public class Downstream
-    {
-        public string host { get; set; }
-        public string schema { get; set; }
-        public int weight { get; set; }
-    }
-
 }

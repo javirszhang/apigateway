@@ -9,9 +9,9 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ExtensionFunctions
     {
-        public static void AddMerchantInfo<T>(this IServiceCollection services) where T : class, IMerchantInfo
+        public static void AddMerchantInfo<T>(this IServiceCollection services) where T : class, IMerchant
         {
-            services.AddScoped<IMerchantInfo, T>();
+            services.AddScoped<IMerchant, T>();
         }
         public static void AddRequestValidation<T>(this IServiceCollection services) where T : class, IRequestValidate
         {
