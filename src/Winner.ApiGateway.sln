@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BizApi", "BizApi\BizApi.csproj", "{5D9D9510-74CB-41B9-B3DA-24A49903B14E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Winner.ReverseProxy.Gateway", "Winner.ReverseProxy.Gateway\Winner.ReverseProxy.Gateway.csproj", "{C6BDB06D-179A-4D1A-BBFF-917E4A8BEAAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winner.ReverseProxy.Gateway", "Winner.ReverseProxy.Gateway\Winner.ReverseProxy.Gateway.csproj", "{C6BDB06D-179A-4D1A-BBFF-917E4A8BEAAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Winner.Gateway.Web", "Winner.Gateway.Web\Winner.Gateway.Web.csproj", "{11FC7F00-C367-4216-A1AB-C5215656BA35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winner.Gateway.Web", "Winner.Gateway.Web\Winner.Gateway.Web.csproj", "{11FC7F00-C367-4216-A1AB-C5215656BA35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Winner.Gateway.DataResolver", "Winner.Gateway.DataResolver\Winner.Gateway.DataResolver.csproj", "{67541B75-72AD-4E5F-B700-EACBCB7BC155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{11FC7F00-C367-4216-A1AB-C5215656BA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11FC7F00-C367-4216-A1AB-C5215656BA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11FC7F00-C367-4216-A1AB-C5215656BA35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67541B75-72AD-4E5F-B700-EACBCB7BC155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67541B75-72AD-4E5F-B700-EACBCB7BC155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67541B75-72AD-4E5F-B700-EACBCB7BC155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67541B75-72AD-4E5F-B700-EACBCB7BC155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -41,6 +41,12 @@ namespace Winner.ReverseProxy.Gateway
             var reverseContext = GetProxyContext(context, this.ReverseProxyConfig);
 
             RequestDataResolver dataResolver = GetDataResolver();
+            if (dataResolver == null)
+            {
+                result = wrapper.Wrap(null, "0003", "网关配置错误");
+                await result.ExecuteAsync(context);
+                return;
+            }
             var rlvres = dataResolver.Resolve(reverseContext);
             if (!rlvres.Success)
             {
@@ -99,7 +105,7 @@ namespace Winner.ReverseProxy.Gateway
         private RequestDataResolver GetDataResolver()
         {
             RequestDataResolver resolver = (RequestDataResolver)_svp.GetService(typeof(RequestDataResolver));
-            return resolver ?? new RequestDataResolver();
+            return resolver;
         }
         private IProxyResponseWrapper GetResponseWrapper()
         {
@@ -161,39 +167,5 @@ namespace Winner.ReverseProxy.Gateway
     {
         IGatawayResult Wrap(string bizResult, string code, string message);
         IMerchant Merchant { get; set; }
-    }
-
-
-
-    public class Merchant : IMerchant
-    {
-        public string SignType { get; set; }
-        public string MerchantName { get; set; }
-        public string MerchantCode { get; set; }
-        public string AppSecret { get; set; }
-        public string RsaPublicKey { get; set; }
-        public string RsaPrivateKey { get; set; }
-        public string Decrypt(string cipher)
-        {
-            if (string.IsNullOrEmpty(cipher))
-            {
-                return null;
-            }
-            return Encoding.UTF8.GetString(Base58.Decode(cipher));
-        }
-
-        public string Encrypt(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return null;
-            }
-            return Base58.Encode(Encoding.UTF8.GetBytes(text));
-        }
-
-        public string SignData(string original)
-        {
-            return MD5.Encode(original + AppSecret);
-        }
     }
 }

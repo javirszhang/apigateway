@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Winner.Framework.Utils.Model;
 
 namespace Winner.ReverseProxy.Gateway.Interfaces
 {
@@ -9,9 +10,10 @@ namespace Winner.ReverseProxy.Gateway.Interfaces
         string GetToken();
         IMerchant GetMerchant();
         string GetRequestSignature();
-        bool VerifySignature();
+        FuncResult VerifySignature();
         string GetApiVersion();
         string GetServiceCode();
         string GetBizContent();
+        string GetRequestOriginalString();
     }
 }

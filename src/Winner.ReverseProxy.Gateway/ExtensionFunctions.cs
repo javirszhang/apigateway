@@ -13,18 +13,28 @@ namespace Winner.ReverseProxy.Gateway
     {
         public static int Count(this IEnumerable array)
         {
-            int i = 0;
-            foreach (object item in array)
+            if (array == null)
             {
-                i++;
+                throw new ArgumentNullException("array");
             }
-            return i;
+            ICollection collection = array as ICollection;
+            if (collection != null)
+            {
+                return collection.Count;
+            }
+            int num = 0;
+            IEnumerator enumerator = array.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                num = checked(num + 1);
+            }
+            return num;
         }
-        public static bool Contains(this IEnumerable<string> array, string item, StringComparison comparison = StringComparison.CurrentCulture)
+        public static bool Contains(this IEnumerable<string> array, string item, StringComparison comparison = StringComparison.Ordinal)
         {
             foreach (string s in array)
             {
-                if (s.Equals(item, comparison))
+                if (s != null && s.Equals(item, comparison))
                 {
                     return true;
                 }
